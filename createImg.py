@@ -1,4 +1,5 @@
 from gimpfu import *
+import random
 import gimp
 
 base_size = 768
@@ -39,34 +40,28 @@ def create_txt_img(text1, text2, isVc, isEl, file, size=64):
     gimp.set_foreground(200, 200, 200)
     fs = 96
     ls = 108
+    # Create background text.
     if isVc:
-        textlayer = create_text_layer(img,"0190361480376248", 0, 0 * ls, fs)
-        textlayer = create_text_layer(img,"0190361483028370", 0, 1 * ls, fs)
-        textlayer = create_text_layer(img,"0190361048291837", 0, 2 * ls, fs)
-        textlayer = create_text_layer(img,"0190361381023847", 0, 3 * ls, fs)
-        textlayer = create_text_layer(img,"0190361183940283", 0, 4 * ls, fs)
-        textlayer = create_text_layer(img,"0190361467502374", 0, 5 * ls, fs)
-        textlayer = create_text_layer(img,"0190361193849387", 0, 6 * ls, fs)
-        textlayer = create_text_layer(img,"0190361402837463", 0, 7 * ls, fs)
-#        textlayer = create_text_layer(img,"0190361203476283", 0, 1 * ls, fs)
-#        textlayer = create_text_layer(img,"0190361203476283", 0, 1 * ls, fs)
+        for l in range(8):
+            textlayer = create_text_layer(img,"%s" % random.randint(100000000000, 999999999999), 0, l * ls, fs)
     if isEl:
         for l in range(8):
-            textlayer = create_text_layer(img,"item %s" % l, 0, l * ls, fs)
+            textlayer = create_text_layer(img,"%s_%s%s" % (l, text1, text2 if text2 else ''), 0, l * ls, fs)
+
 
     gimp.set_foreground(0, 97, 160)
 
     if text2:
-	textlayer = create_text_layer(img, text1, xoffset1, yoffset1)
+        textlayer = create_text_layer(img, text1, xoffset1, yoffset1)
         textlayer = create_text_layer(img, text2, xoffset2, yoffset2)
     else:
-	textlayer = create_text_layer(img, text1, xoffset, yoffset)
+        textlayer = create_text_layer(img, text1, xoffset, yoffset)
 
 
     if isVc:
         gimp.set_foreground(100, 100, 100)
         textlayer = create_text_layer(img, "VC", xoffsetVc, yoffsetVc, 216)
-	pdb.gimp_layer_set_opacity(textlayer, 70)
+        pdb.gimp_layer_set_opacity(textlayer, 70)
 
     bg.resize(base_size, base_size, 0, 0)
     img.resize(base_size, base_size, 0, 0)
