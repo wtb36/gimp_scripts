@@ -31,23 +31,28 @@ def create_text_layer(img, text, xo, yo, fontsize = 288):
     return textlayer
 
 
-def create_txt_img(text1, text2, isVc, file, size=64):
+def create_txt_img(text1, text2, isVc, isEl, file, size=64):
     img = gimp.Image(base_size, base_size, RGB)
     bg = gimp.Layer(img, "BG", base_size, base_size, 1, 0, 0)
     img.add_layer(bg)
 
     gimp.set_foreground(200, 200, 200)
+    fs = 96
+    ls = 108
     if isVc:
-        textlayer = create_text_layer(img,"0190361480376248", 0, 0, 72)
-        textlayer = create_text_layer(img,"0190361483028370", 0, 80, 72)
-        textlayer = create_text_layer(img,"0190361048291837", 0, 160, 72)
-        textlayer = create_text_layer(img,"0190361381023847", 0, 240, 72)
-        textlayer = create_text_layer(img,"0190361183940283", 0, 320, 72)
-        textlayer = create_text_layer(img,"0190361467502374", 0, 400, 72)
-        textlayer = create_text_layer(img,"0190361193849387", 0, 480, 72)
-        textlayer = create_text_layer(img,"0190361402837463", 0, 560, 72)
-        textlayer = create_text_layer(img,"0190361203476283", 0, 640, 72)
-        textlayer = create_text_layer(img,"0190361203476283", 0, 720, 72)
+        textlayer = create_text_layer(img,"0190361480376248", 0, 0 * ls, fs)
+        textlayer = create_text_layer(img,"0190361483028370", 0, 1 * ls, fs)
+        textlayer = create_text_layer(img,"0190361048291837", 0, 2 * ls, fs)
+        textlayer = create_text_layer(img,"0190361381023847", 0, 3 * ls, fs)
+        textlayer = create_text_layer(img,"0190361183940283", 0, 4 * ls, fs)
+        textlayer = create_text_layer(img,"0190361467502374", 0, 5 * ls, fs)
+        textlayer = create_text_layer(img,"0190361193849387", 0, 6 * ls, fs)
+        textlayer = create_text_layer(img,"0190361402837463", 0, 7 * ls, fs)
+#        textlayer = create_text_layer(img,"0190361203476283", 0, 1 * ls, fs)
+#        textlayer = create_text_layer(img,"0190361203476283", 0, 1 * ls, fs)
+    if isEl:
+        for l in range(8):
+            textlayer = create_text_layer(img,"item %s" % l, 0, l * ls, fs)
 
     gimp.set_foreground(0, 97, 160)
 
@@ -80,23 +85,35 @@ el1 = ( "Account", "Currency", "Curve", "Location", "Portfolio", "Scenario", "Te
 vc1 = ( "Account", "Currency", "Variable")
 vc2 = ( ("Cost", "Type"), ("Curve", "Group"), ("Discount", "Curve"), ("Discount", "Type"), ("Exchange", "Rate"), ("Future", "Cost"), ("Future", "Rental"), ("Vacancy", "Duration"))
 el2 = ( ("Cost", "Type"), ("Curve", "Group"), ("Discount", "Object"), ("Discount", "Type"), ("Exchange", "Rate"), ("Future", "Cost"), ("Future", "Rental"), ("Real", "Estate"), ("Vacancy", "Duration"))
+ac1 = ( "Query", )
+ac2 = ( ("Start", "Simulation"), ("View","Simulation"), ("Static", "Quantities") )
 
 for d in (el1):
     file = "el_" + d[0].lower() + d[1:]
-    create_txt_img(d, None, False, file)
-    create_txt_img(d, None, False, file, 32)
+    create_txt_img(d, None, False, True, file)
+    create_txt_img(d, None, False, True, file, 32)
 
 for (d1, d2) in (el2):
     file = "el_" + d1[0].lower() + d1[1:] + d2
-    create_txt_img(d1, d2, False, file)
-    create_txt_img(d1, d2, False, file, 32)
+    create_txt_img(d1, d2, False, True, file)
+    create_txt_img(d1, d2, False, True, file, 32)
 
 for d in (vc1):
     file = "vc_" + d[0].lower() + d[1:]
-    create_txt_img(d, None, True, file)
-    create_txt_img(d, None, True, file, 32)
+    create_txt_img(d, None, True, False, file)
+    create_txt_img(d, None, True, False, file, 32)
 
 for (d1, d2) in (vc2):
     file = "vc_" + d1[0].lower() + d1[1:] + d2
-    create_txt_img(d1, d2, True, file)
-    create_txt_img(d1, d2, True, file, 32)
+    create_txt_img(d1, d2, True, False, file)
+    create_txt_img(d1, d2, True, False, file, 32)
+
+for d in (ac1):
+    file = "ac_" + d[0].lower() + d[1:]
+    create_txt_img(d, None, False, False, file)
+    create_txt_img(d, None, False, False, file, 32)
+
+for (d1, d2) in (ac2):
+    file = "ac_" + d1[0].lower() + d1[1:] + d2
+    create_txt_img(d1, d2, False, False, file)
+    create_txt_img(d1, d2, False, False, file, 32)
